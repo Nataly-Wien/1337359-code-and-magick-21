@@ -37,8 +37,9 @@ const drawCloud = function (ctx, x, y, width, height, color) {
     [`left`, -1]
   ]);
 
-  const drawWave = function (count, direction) {
+  const drawWave = function (direction) {
     const isVertical = direction === `down` || direction === `up`;
+    const count = isVertical ? waveCountY : waveCountX;
 
     for (let i = 0; i < count; i++) {
       x += isVertical ? waveOffset * directionMap.get(direction) : width / (2 * count * directionMap.get(direction));
@@ -56,10 +57,10 @@ const drawCloud = function (ctx, x, y, width, height, color) {
   ctx.beginPath();
   ctx.moveTo(x, y);
 
-  drawWave(waveCountY, `down`);
-  drawWave(waveCountX, `right`);
-  drawWave(waveCountY, `up`);
-  drawWave(waveCountX, `left`);
+  drawWave(`down`);
+  drawWave(`right`);
+  drawWave(`up`);
+  drawWave(`left`);
 
   ctx.stroke();
   ctx.closePath();
