@@ -207,7 +207,7 @@ const onPlayerClick = (evt) => {
 };
 
 
-openSetupBlock.addEventListener(`click`, openSetup());
+openSetupBlock.addEventListener(`click`, openSetup);
 openSetupBlock.addEventListener(`keydown`, (evt) => {
   if (evt.key === `Enter`) {
     openSetup();
