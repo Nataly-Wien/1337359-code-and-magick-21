@@ -48,13 +48,13 @@ const FIREBALL_COLORS_LIST = [
 ];
 
 const WIZARDS_NUMBER = 4;
-const UESRNAME_MINLENGTH = 2;
-const UESRNAME_MAXLENGTH = 25;
+const USERNAME_MINLENGTH = 2;
+const USERNAME_MAXLENGTH = 25;
 
 const usernameValidationMessages = [
   `Введите имя персонажа`,
-  `Имя персонажа должно состоять минимум из ${UESRNAME_MINLENGTH}-х символов`,
-  `Максимальная длина имени персонажа - ${UESRNAME_MAXLENGTH} символов`,
+  `Имя персонажа должно состоять минимум из ${USERNAME_MINLENGTH}-х символов`,
+  `Максимальная длина имени персонажа - ${USERNAME_MAXLENGTH} символов`,
   `Введите еще`,
   `Удалите лишние`,
 ];
@@ -71,7 +71,8 @@ const wizardCoat = document.querySelector(`.setup-wizard .wizard-coat`);
 const wizardCoatField = document.querySelector(`input[name="coat-color"]`);
 const wizardEyes = document.querySelector(`.setup-wizard .wizard-eyes`);
 const wizardEyesField = document.querySelector(`input[name="eyes-color"]`);
-const fireBall = document.querySelector(`.setup-fireball-wrap`);
+const fireballWrap = document.querySelector(`.setup-fireball-wrap`);
+const fireball = document.querySelector(`.setup-fireball`);
 const fireballField = document.querySelector(`input[name="fireball-color"]`);
 const setupPlayer = document.querySelector(`.setup-player`);
 
@@ -119,40 +120,31 @@ const getWizardsBlock = () => {
 
 const openSetup = () => {
   gameSetup.classList.remove(`hidden`);
-  window.addEventListener(`keydown`, onWindowClick);
-  closeButton.addEventListener(`click`, onCloseButtonClick);
+  document.addEventListener(`keydown`, onDocumentClick);
+  closeButton.addEventListener(`click`, closeSetup);
   closeButton.addEventListener(`keydown`, onCloseButtonDown);
   usernameField.addEventListener(`invalid`, onUsernameFieldInvalid);
   usernameField.addEventListener(`input`, onUsernameFieldInput);
   setupPlayer.addEventListener(`click`, onPlayerClick);
 };
 
-openSetupBlock.addEventListener(`click`, () => openSetup());
-
-openSetupBlock.addEventListener(`keydown`, (evt) => {
-  if (evt.key === `Enter`) {
-    openSetup();
-  }
-});
 
 const closeSetup = () => {
   gameSetup.classList.add(`hidden`);
-  window.removeEventListener(`keydown`, onWindowClick);
-  closeButton.removeEventListener(`click`, onCloseButtonClick);
+  document.removeEventListener(`keydown`, onDocumentClick);
+  closeButton.removeEventListener(`click`, closeSetup);
   closeButton.removeEventListener(`keydown`, onCloseButtonDown);
   usernameField.removeEventListener(`invalid`, onUsernameFieldInvalid);
   usernameField.removeEventListener(`input`, onUsernameFieldInput);
   setupPlayer.removeEventListener(`click`, onPlayerClick);
 };
 
-const onWindowClick = (evt) => {
+const onDocumentClick = (evt) => {
   if (evt.key === `Escape` && usernameField !== document.activeElement) {
     evt.preventDefault();
     closeSetup();
   }
 };
-
-const onCloseButtonClick = () => closeSetup();
 
 const onCloseButtonDown = (evt) => {
   if (evt.key === `Enter`) {
@@ -186,10 +178,12 @@ const getWordForm = (number, forms) => {
 const onUsernameFieldInput = () => {
   const fieldLength = usernameField.value.length;
 
-  if (fieldLength < UESRNAME_MINLENGTH) {
-    usernameField.setCustomValidity(`${usernameValidationMessages[3]} ${UESRNAME_MINLENGTH - fieldLength} ${getWordForm(UESRNAME_MINLENGTH - fieldLength, [`символ`, `символа`, `символов`])}`);
-  } else if (fieldLength > UESRNAME_MAXLENGTH) {
-    usernameField.setCustomValidity(`${usernameValidationMessages[4]} ${fieldLength - UESRNAME_MAXLENGTH} ${getWordForm(fieldLength - UESRNAME_MAXLENGTH, [`символ`, `символа`, `символов`])}`);
+  if (fieldLength < USERNAME_MINLENGTH) {
+    usernameField.setCustomValidity(`${usernameValidationMessages[3]} ${USERNAME_MINLENGTH -
+      fieldLength} ${getWordForm(USERNAME_MINLENGTH - fieldLength, [`символ`, `символа`, `символов`])}`);
+  } else if (fieldLength > USERNAME_MAXLENGTH) {
+    usernameField.setCustomValidity(`${usernameValidationMessages[4]} ${fieldLength -
+      USERNAME_MAXLENGTH} ${getWordForm(fieldLength - USERNAME_MAXLENGTH, [`символ`, `символа`, `символов`])}`);
   } else {
     usernameField.setCustomValidity(``);
   }
@@ -197,9 +191,9 @@ const onUsernameFieldInput = () => {
 
 const onPlayerClick = (evt) => {
   switch (evt.target) {
-    case document.querySelector(`.setup-fireball`):
+    case fireball:
       fireballField.value = getRandomFromList(FIREBALL_COLORS_LIST);
-      fireBall.style.backgroundColor = fireballField.value;
+      fireballWrap.style.backgroundColor = fireballField.value;
       break;
     case wizardEyes:
       wizardEyesField.value = getRandomFromList(EYES_COLORS_LIST);
@@ -212,6 +206,13 @@ const onPlayerClick = (evt) => {
   }
 };
 
+
+openSetupBlock.addEventListener(`click`, openSetup());
+openSetupBlock.addEventListener(`keydown`, (evt) => {
+  if (evt.key === `Enter`) {
+    openSetup();
+  }
+});
 
 similarWizardsList.appendChild(getWizardsBlock());
 gameSetup.querySelector(`.setup-similar`).classList.remove(`hidden`);
