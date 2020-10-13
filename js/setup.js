@@ -59,4 +59,4 @@ openSetupBlock.addEventListener(`keydown`, (evt) => {
   }
 });
 
-window.similarWizards.addWizardsBlock();
+window.data.addWizardsBlock();

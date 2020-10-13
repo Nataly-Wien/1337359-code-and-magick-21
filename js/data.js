@@ -72,7 +72,7 @@
     window.options.gameSetup.querySelector(`.setup-similar`).classList.remove(`hidden`);
   };
 
-  window.similarWizards = {
+  window.data = {
     addWizardsBlock
   };
 })();
