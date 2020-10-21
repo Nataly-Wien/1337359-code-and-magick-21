@@ -25,6 +25,7 @@
 
     xhr.timeout = timeOut;
     xhr.open(`GET`, loadURL);
+    xhr.setRequestHeader(`Content-Type`, `multipart/form-data`);
     xhr.send();
   };
 
