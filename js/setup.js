@@ -21,7 +21,7 @@ const openSetup = () => {
   document.addEventListener(`keydown`, onDocumentClick);
   closeButton.addEventListener(`click`, closeSetup);
   closeButton.addEventListener(`keydown`, onCloseButtonDown);
-  window.formValidation.setFormValidation();
+  window.form.setFormHandlers();
   window.colorize.setPlayerColoration();
   window.moving.addMovingListener(gameSetup, uploadIcon);
 };
@@ -33,7 +33,7 @@ const closeSetup = () => {
   document.removeEventListener(`keydown`, onDocumentClick);
   closeButton.removeEventListener(`click`, closeSetup);
   closeButton.removeEventListener(`keydown`, onCloseButtonDown);
-  window.formValidation.removeFormValidation();
+  window.form.removeFormHandlers();
   window.colorize.removePlayerColoration();
   window.moving.removeMovingListener(gameSetup, uploadIcon);
 };

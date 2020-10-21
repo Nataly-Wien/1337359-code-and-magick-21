@@ -45,18 +45,31 @@
     }
   };
 
-  const setFormValidation = () => {
+  const onSubmit = (evt) => {
+    const data = new FormData(setupForm);
+
+    // for (let key of data.keys()) {
+    //   console.log(data.get(key));
+    // }
+    window.backend.save(data, () => window.options.gameSetup.classList.add(`hidden`), window.utils.showError);
+
+    evt.preventDefault();
+  };
+
+  const setFormHandlers = () => {
     usernameField.addEventListener(`invalid`, onUsernameFieldInvalid);
     usernameField.addEventListener(`input`, onUsernameFieldInput);
+    setupForm.addEventListener(`submit`, onSubmit);
   };
 
-  const removeFormValidation = () => {
+  const removeFormHandlers = () => {
     usernameField.removeEventListener(`invalid`, onUsernameFieldInvalid);
     usernameField.removeEventListener(`input`, onUsernameFieldInput);
+    setupForm.removeEventListener(`submit`, onSubmit);
   };
 
-  window.formValidation = {
-    setFormValidation,
-    removeFormValidation,
+  window.form = {
+    setFormHandlers,
+    removeFormHandlers,
   };
 })();
