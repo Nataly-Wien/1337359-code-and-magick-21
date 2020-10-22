@@ -12,8 +12,16 @@
     return forms[number > 4 && number < 20 ? 2 : cases[Math.min(number % 10, 5)]];
   };
 
+  const showError = (message) => {
+    const errorBlock = document.createElement(`div`);
+    errorBlock.textContent = message;
+    errorBlock.classList.add(`error-message`);
+    window.options.gameSetup.insertAdjacentElement(`afterbegin`, errorBlock);
+  };
+
   window.utils = {
     getRandomFromList,
     getWordForm,
+    showError,
   };
 })();

@@ -1,17 +1,23 @@
 'use strict';
 
 (() => {
-  const onHandleDown = (elem, handleToMove) => (downEvt) => {
+  const onTargetDown = (downEvt) => {
     downEvt.preventDefault();
+    const elem = window.element;
+    const target = window.target;
+
+    if (elem === null || target === null) {
+      return;
+    }
     const startCoords = {
       x: downEvt.clientX,
       y: downEvt.clientY
     };
-    let isMove = false;
+    let isDragged = false;
 
-    const onHandleMove = (moveEvt) => {
+    const onTargetMove = (moveEvt) => {
       moveEvt.preventDefault();
-      isMove = true;
+      isDragged = true;
       const shift = {
         x: moveEvt.clientX - startCoords.x,
         y: moveEvt.clientY - startCoords.y
@@ -24,30 +30,36 @@
       startCoords.y = moveEvt.clientY;
     };
 
-    const onHandleUp = (upEvt) => {
+    const onTargetUp = (upEvt) => {
       upEvt.preventDefault(upEvt);
-      if (isMove) {
-        const onHandleClick = (clickEvt) => {
+
+      if (isDragged) {
+        const onTargetClick = (clickEvt) => {
           clickEvt.preventDefault();
-          handleToMove.removeEventListener(`click`, onHandleClick);
+          target.removeEventListener(`click`, onTargetClick);
         };
 
-        handleToMove.addEventListener(`click`, onHandleClick);
+        target.addEventListener(`click`, onTargetClick);
       }
-      document.removeEventListener(`mousemove`, onHandleMove);
-      document.removeEventListener(`mouseup`, onHandleUp);
+
+      document.removeEventListener(`mousemove`, onTargetMove);
+      document.removeEventListener(`mouseup`, onTargetUp);
     };
 
-    document.addEventListener(`mousemove`, onHandleMove);
-    document.addEventListener(`mouseup`, onHandleUp);
+    document.addEventListener(`mousemove`, onTargetMove);
+    document.addEventListener(`mouseup`, onTargetUp);
   };
 
-  const addMovingListener = (element, handle) => {
-    handle.addEventListener(`mousedown`, onHandleDown(element, handle));
+  const addMovingListener = (element, target) => {
+    window.element = element;
+    window.target = target;
+    target.addEventListener(`mousedown`, onTargetDown);
   };
 
-  const removeMovingListener = (element, handle) => {
-    handle.removeEventListener(`mousedown`, onHandleDown(element, handle));
+  const removeMovingListener = (element, target) => {
+    target.removeEventListener(`mousedown`, onTargetDown);
+    window.element = null;
+    window.target = null;
   };
 
   window.moving = {
