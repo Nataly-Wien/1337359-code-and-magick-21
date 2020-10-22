@@ -14,20 +14,8 @@
 
   const showError = (message) => {
     const errorBlock = document.createElement(`div`);
-
-    errorBlock.style.position = `absolute`;
-    errorBlock.style.zIndex = 30;
-    errorBlock.style.width = `60%`;
-    errorBlock.style.top = `200px`;
-    errorBlock.style.left = `15%`;
-    errorBlock.style.margin = `0 auto`;
-    errorBlock.style.padding = `20px`;
-    errorBlock.style.fontSize = `24px`;
-    errorBlock.style.textAlign = `center`;
-    errorBlock.style.backgroundColor = `tomato`;
-    errorBlock.style.color = `white`;
     errorBlock.textContent = message;
-
+    errorBlock.classList.add(`error-message`);
     window.options.gameSetup.insertAdjacentElement(`afterbegin`, errorBlock);
   };
 

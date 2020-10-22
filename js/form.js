@@ -46,14 +46,13 @@
   };
 
   const onSubmit = (evt) => {
+    evt.preventDefault();
     const data = new FormData(setupForm);
 
     // for (let key of data.keys()) {
     //   console.log(data.get(key));
     // }
     window.backend.save(data, () => window.options.gameSetup.classList.add(`hidden`), window.utils.showError);
-
-    evt.preventDefault();
   };
 
   const setFormHandlers = () => {

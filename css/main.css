@@ -1041,3 +1041,18 @@ input[type=radio]:checked + .review-mark-label
 
     opacity: 0;
 }
+
+.error-message
+{
+   position: absolute;
+   z-index: 30;
+   width: 60%;
+   top: 200px;
+   left: 15%;
+   margin: 0 auto;
+   padding: 20px;
+   font-size: 20px;
+   text-align: center;
+   background-color: tomato;
+   color: white;
+}
